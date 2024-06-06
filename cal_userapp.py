@@ -24,7 +24,7 @@ class cal_UserApp(tk.Toplevel):
         style.configure('Treeview.Heading', font=('Helvetica', 16, 'bold'))
         style.configure('Treeview', rowheight=25)
 
-        title_label = ttk.Label(self, text="Peroformance Schedule", font=('Helvetica', 22, 'bold'))
+        title_label = ttk.Label(self, text="Performance Schedule", font=('Helvetica', 22, 'bold'))
         title_label.pack(pady=20)
 
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
