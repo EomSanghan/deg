@@ -13,17 +13,8 @@ from cal_admin_app import cal_AdminApp
 from facility_guide import Tree
 from tree_usergui import tree_UserApp
 from tree_admingui import tree_AdminApp
-
-
-
-class AppD(tk.Toplevel):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.title("AppD")
-        self.geometry("200x200")
-        label = tk.Label(self, text="This is AppD")
-        label.pack()
-
+# 김대겸
+from ticketing_user import ticketing_user_gui  
 
 class MainApp(tk.Tk):
     def __init__(self):
@@ -35,41 +26,45 @@ class MainApp(tk.Tk):
         self.timetable = {day: PositionList() for day in range(1, 32)}
         self.tree = self.create_tree()
         
-        self.user_buttons = [("Calendar", cal_UserApp), ("Inquiry", InquiryUserGUI), ("Facility", tree_UserApp), ("AppD", AppD)]
+        self.user_buttons = [("Calendar", cal_UserApp), ("Inquiry", InquiryUserGUI), ("Facility", tree_UserApp), ("Ticketing", ticketing_user_gui)]
         self.admin_buttons = [("ConcertReservation", ConcertReservationSystemGUI), ("InquiryAdmin", InquiryAdminGUI), ("Calendar", cal_AdminApp), ("Facility", tree_AdminApp)]
         
-        self.create_main_frames()
         self.create_main_buttons()
 
-    def create_main_frames(self):
-        self.main_button_frame = ttk.Frame(self)
-        self.main_button_frame.pack(pady=10)
-
-        self.additional_button_frame = ttk.Frame(self)
-        self.additional_button_frame.pack(pady=10)
 
     def create_main_buttons(self):
-        user_button = tk.Button(self.main_button_frame, text="User", command=self.show_user_buttons,width=10, height=2)
-        user_button.grid(row=0, column=0, padx=10)
+        user_button = ttk.Button(self, text="User", command=self.show_user_buttons)
+        user_button.pack(pady=10)
 
-        admin_button = tk.Button(self.main_button_frame, text="Admin", command=self.show_admin_buttons,width=10, height=2)
-        admin_button.grid(row=0, column=1, padx=10)
+        admin_button = ttk.Button(self, text="Admin", command=self.show_admin_buttons)
+        admin_button.pack(pady=10)
 
     def show_user_buttons(self):
-        self.clear_additional_frame()
+        self.clear_frame()
         for text, app_class in self.user_buttons:
-            button = ttk.Button(self.additional_button_frame, text=text, command=lambda app_class=app_class: self.open_app(app_class, "user"))
+            button = ttk.Button(self, text=text, command=lambda app_class=app_class: self.open_app(app_class, "user"))
             button.pack(pady=5)
 
     def show_admin_buttons(self):
-        self.clear_additional_frame()
+        self.clear_frame()
         for text, app_class in self.admin_buttons:
-            button = ttk.Button(self.additional_button_frame, text=text, command=lambda app_class=app_class: self.open_app(app_class, "admin"))
+            button = ttk.Button(self, text=text, command=lambda app_class=app_class: self.open_app(app_class, "admin"))
             button.pack(pady=5)
 
-    def clear_additional_frame(self):
-        for widget in self.additional_button_frame.winfo_children():
+    def clear_frame(self):
+        for widget in self.winfo_children():
             widget.destroy()
+        self.create_main_buttons()
+
+    def open_app(self, app_class, user_type):
+        if user_type == "user" and app_class == InquiryUserGUI:
+            app_class(self, self.system)
+        elif user_type == "admin" and app_class == InquiryAdminGUI:
+            app_class(self, self.system)
+        else:
+            app_class(self)
+
+            
 
     def open_app(self, app_class, user_type):
         if user_type == "user" and app_class == InquiryUserGUI:
@@ -84,6 +79,9 @@ class MainApp(tk.Tk):
             app_class(self, self.tree)
         elif user_type == "admin" and app_class == tree_AdminApp:
             app_class(self, self.tree)
+        elif user_type == "user" and app_class == ticketing_user_gui:
+            app_class(self)
+            self.show_ticketing_gui()
         else:
             app_class(self)
 
@@ -107,6 +105,7 @@ class MainApp(tk.Tk):
         tree.add_node("Snack Bar", "Food Bar")
         tree.add_node("Snack Bar", "Souvenir Shop")
         return tree
+    
 
 if __name__ == "__main__":
     app = MainApp()
