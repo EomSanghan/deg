@@ -6,7 +6,7 @@ from inquiry_system import InquirySystem
 # 안기섭
 from ticketing_admin import ConcertReservationSystemGUI
 # 엄상한
-from position_list import PositionList
+from double_linked import DoubleLinkedList
 from cal_userapp import cal_UserApp
 from cal_admin_app import cal_AdminApp
 # 방보현
@@ -23,7 +23,7 @@ class MainApp(tk.Tk):
         self.geometry("400x400")  # 창의 크기를 키움
         
         self.system = InquirySystem()
-        self.timetable = {day: PositionList() for day in range(1, 32)}
+        self.timetable = {day: DoubleLinkedList() for day in range(1, 32)}
         self.tree = self.create_tree()
         
         self.user_buttons = [("Calendar", cal_UserApp), ("Inquiry", InquiryUserGUI), ("Facility", tree_UserApp), ("Ticketing", ticketing_user_gui)]
