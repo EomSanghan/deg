@@ -81,7 +81,6 @@ class MainApp(tk.Tk):
             app_class(self, self.tree)
         elif user_type == "user" and app_class == ticketing_user_gui:
             app_class(self)
-            self.show_ticketing_gui()
         else:
             app_class(self)
 
