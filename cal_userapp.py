@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from position_list import PositionList
+from double_linked import DoubleLinkedList
 
 class cal_UserApp(tk.Toplevel):
     def __init__(self, master, main_app, timetable):
@@ -52,7 +52,7 @@ class cal_UserApp(tk.Toplevel):
         for widget in self.winfo_children():
             widget.destroy()
 
-        back_btn = ttk.Button(self, text="뒤로 가기", command=self.create_calendar)
+        back_btn = ttk.Button(self, text="return", command=self.create_calendar)
         back_btn.pack(pady=10)
 
         tree = ttk.Treeview(self, columns=("Time", "Name"), show="headings")
